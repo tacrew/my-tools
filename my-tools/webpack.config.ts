@@ -3,7 +3,6 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
 
-const tsImportPluginFactory = require("ts-import-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const IS_DEV = (process.env.NODE_ENV === "development");
@@ -20,7 +19,7 @@ const config: webpack.Configuration = {
         path: path.resolve(__dirname, "dist")
     },
     resolve: {
-        extensions: [".js", ".ts", ".tsx", ".less", ".css"],
+        extensions: [".js", ".ts", ".tsx", ".css"],
         modules: [
             path.resolve(__dirname, "src/client"),
             path.resolve(__dirname, "node_modules"),
@@ -37,24 +36,7 @@ const config: webpack.Configuration = {
                 test: /\.tsx?$/,
                 use: [
                     "react-hot-loader/webpack",
-                    {
-                        loader: "ts-loader",
-                        options: {
-                            getCustomTransformers: () => ({
-                                before: [
-                                    tsImportPluginFactory({
-                                        libraryName: "antd",
-                                        libraryDirectory: "es",
-                                        style: true
-                                    })
-                                ]
-                            }),
-                            compilerOptions: {
-                                module: "es2020"
-                            }
-                        }
-                    }
-
+                    "ts-loader"
                 ],
             },
             {
@@ -62,19 +44,7 @@ const config: webpack.Configuration = {
                 use: [
                     "style-loader",
                     "css-loader",
-                    {
-                        loader: "less-loader",
-                        options: {
-                            lessOptions: {
-                                javascriptEnabled: true
-                            }
-                        }
-                    }
                 ]
-            },
-            {
-                test: /favicon\.ico$/,
-                use: "file-loader?name=[name].[ext]"
             },
         ],
     },

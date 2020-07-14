@@ -147,3 +147,4 @@ sketch
 .history
 
 # End of https://www.gitignore.io/api/node,react,linux,visualstudiocode
+src/client/utils/firebase.ts
